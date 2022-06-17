@@ -344,6 +344,7 @@ export default `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.
               yet received your payment. If we receive the payment later, we will make a refund arrangement for you.
               Please click "Help" to register the information.</p>
           </div>
+        </div>
       </div>
     </div>
     <div class="__mixpay-result" data-id="overtime">

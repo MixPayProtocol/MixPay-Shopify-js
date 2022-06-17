@@ -12,6 +12,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
   document.title = document.title.replace("Thank you", "Review and pay");
   setInnerText(mainHeader, "Review and pay!");
+  setStyle(mainHeader, "visibility", "visible");
   setStyle(orderConfirmed, "visibility", "hidden");
   setStyle(orderConfirmedDescription, "display", "block");
   setStyle(continueButton, "visibility", "hidden");
@@ -23,7 +24,8 @@ window.addEventListener("DOMContentLoaded", function () {
     apiKey = script.getAttribute("data-api");
   } else {
     prefix = "https://pluginsapi.mixpay.me/plugins";
-    apiKey = "372fdba9-fdee-4b4c-b4d9-9aa915b4910c";
+    // prefix = "https://mixpay-plugins.thorb.com/";
+    apiKey = "df48fb09-e805-4391-98b8-8a92bfe26faa";
   }
 
   var match = prefix.match(/(https?)\:\/\/.*?(?=\/|$)/);
@@ -66,7 +68,7 @@ window.addEventListener("DOMContentLoaded", function () {
       const d = data.data;
       if (d.status == "unpaid") {
         orderConfirmed.after(button);
-        new ShopifyModal({
+        window.shopifyModal = new ShopifyModal({
           toggler: button,
           quoteAmount: window.Shopify.checkout.total_price,
           quoteAssetId: window.Shopify.checkout.currency.toLowerCase(),
