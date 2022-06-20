@@ -24,7 +24,6 @@ window.addEventListener("DOMContentLoaded", function () {
     apiKey = script.getAttribute("data-api");
   } else {
     prefix = "https://pluginsapi.mixpay.me/plugins";
-    // prefix = "https://mixpay-plugins.thorb.com/";
     apiKey = "df48fb09-e805-4391-98b8-8a92bfe26faa";
   }
 

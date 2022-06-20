@@ -2,6 +2,12 @@ import Qrious from "qrious";
 import TEMPLATE from "./template";
 import { namespace, addCopyEvent, setInnerText } from "./utils";
 
+const ua = navigator.userAgent.toLowerCase();
+const isMobile =
+  ua.indexOf("android") > -1 ||
+  ua.indexOf("adr") > -1 ||
+  !!ua.match(/\(i[^;]+;( u;)? cpu.+mac os x/);
+
 function query(element, selector) {
   return element.querySelector(selector);
 }
@@ -36,7 +42,6 @@ export default {
 
     const title = query(container, `.${namespace}-header__title`);
     setInnerText(title, "Pay to " + this.shopName);
-
 
     element.appendChild(mask);
     element.appendChild(container);
@@ -98,11 +103,13 @@ export default {
     };
 
     const payBtn = query(element, `.${namespace}-order button`);
+    const payError = query(element, `.${namespace}-order-error`);
 
     payBtn.onclick = function () {
       if (that.isPaymentCreating) return;
       that.isPaymentCreating = true;
       this.classList.add("inactive");
+      payError.innerHTML = '';
       that
         .createPayment()
         .then(() => {
@@ -112,16 +119,27 @@ export default {
           this.classList.remove("inactive");
         })
         .catch((err) => {
-          console.error(err);
+          payError.innerHTML = '<span>' + err.message + '</span>';
           that.isPaymentCreating = false;
           this.classList.remove("inactive");
         });
     };
 
-    const mixinBackBtn = query(
+    const mixinPayBtn = queryAll(
       element,
       `.${namespace}-checkout[data-id=mixin] button`
-    );
+    )[0];
+    const mixinBackBtn = queryAll(
+      element,
+      `.${namespace}-checkout[data-id=mixin] button`
+    )[1];
+
+    mixinPayBtn.onclick = function () {
+      const { recipient, paymentAssetId, paymentAmount, traceId, memo } =
+        that.payments;
+      window.location.href = `mixin://pay?recipient=${recipient}&asset=${paymentAssetId}&amount=${paymentAmount}&trace=${traceId}&memo=${memo}`;
+    };
+
     mixinBackBtn.onclick = function () {
       clearInterval(that.countdownKey);
       clearInterval(that.pollKey);
@@ -187,10 +205,12 @@ export default {
       element,
       `.${namespace}-result[data-id=overtime] button`
     );
+    const refreshError = query(element, `.${namespace}-result[data-id=overtime] .${namespace}-result-error`);
     refreshBtn.onclick = function () {
       if (that.isPaymentCreating) return;
       that.isPaymentCreating = true;
       this.classList.add("inactive");
+      refreshError.innerHTML = '';
       that
         .createPayment()
         .then(() => {
@@ -201,6 +221,7 @@ export default {
         })
         .catch((err) => {
           console.error(err);
+          refreshError.innerHTML = '<span>' + err.message +'</span>';
           that.isPaymentCreating = false;
           this.classList.remove("inactive");
         });
@@ -296,6 +317,13 @@ export default {
         level: "H",
         size: 600,
       });
+
+      const payBtn = query(wrapperMixin, 'button');
+      if (isMobile) {
+        payBtn.style.display = 'block';
+      } else {
+        payBtn.style.display = 'none';
+      }
     }
   },
 
@@ -349,8 +377,10 @@ export default {
 
       paymentEl.innerText = `${paymentAmount} ${paymentAssetSymbol}`;
       quoteEl.innerText = `${quoteAmount} ${quoteAssetSymbol}`;
-      txidEl.innerHTML = txid ? `<span class="copy-content">${txid}</span><svg class="icon-copy"><use xlink:href="#mixpayModalCopy" /></svg>` : '-';
-      dateEl.innerText = date ? date : '-';
+      txidEl.innerHTML = txid
+        ? `<span class="copy-content">${txid}</span><svg class="icon-copy"><use xlink:href="#mixpayModalCopy" /></svg>`
+        : "-";
+      dateEl.innerText = date ? date : "-";
     }
 
     if (status === "failed") {

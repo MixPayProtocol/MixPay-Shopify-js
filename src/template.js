@@ -174,6 +174,7 @@ export default `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.
         </div>
       </div>
       <div class="__mixpay-order-footer">
+        <p class="__mixpay-order-error"></p>
         <button>Pay</button>
       </div>
     </div>
@@ -191,7 +192,7 @@ export default `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.
           <span class="__mixpay-checkout-header__amount-content">
             <img
               src="https://mixin-images.zeromesh.net/HvYGJsV5TGeZ-X9Ek3FEQohQZ3fE9LBEBGcOcn4c4BNHovP4fW4YB97Dg5LcXoQ1hUjMEgjbl1DPlKg1TW7kK6XP=s128"
-              alt="BTC">
+              alt="BTC" />
             <span class="copy-content">0.00</span>
             <span>BTC</span>
           </span>
@@ -207,7 +208,8 @@ export default `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.
         <div class="__mixpay-qrious-box"><canvas width="600" height="600"></canvas></div>
       </div>
       <div class="__mixpay-checkout-footer">
-        <button>back</button>
+        <button>Open Mixin Messenger</button>
+        <button>Back</button>
       </div>
     </div>
     <div class="__mixpay-checkout" data-id="chain">
@@ -254,7 +256,7 @@ export default `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.
       <div class="__mixpay-checkout-footer">
         <div class="__mixpay-checkout-footer-actions">
           <button>I have paid</button>
-          <button>back</button>
+          <button>Back</button>
         </div>
         <div class="__mixpay-tip">
           <h4 class="__mixpay-tip__title">
@@ -356,6 +358,7 @@ export default `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.
         <p class="__mixpay-result-header__description">Please Refresh First</p>
       </div>
       <div class="__mixpay-result-body">
+        <p class="__mixpay-result-error"></p>
         <button>Refresh</button>
         <div class="__mixpay-tip">
           <h4 class="__mixpay-tip__title">

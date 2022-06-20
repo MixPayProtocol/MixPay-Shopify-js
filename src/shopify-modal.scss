@@ -288,6 +288,14 @@ $border-color: #979797;
   #{$namespace}-order-footer {
     margin-top: 2em;
   }
+
+  #{$namespace}-order-error span {
+    margin-bottom: 1em;
+    display: block;
+    color: red;
+    text-align: center;
+    font-weight: 600;
+  }
 }
 
 #{$namespace}-selector {
@@ -476,11 +484,13 @@ $border-color: #979797;
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
 
       &-content {
-        display: flex;
+        display: inline-flex;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
       }
 
       img {
@@ -491,6 +501,7 @@ $border-color: #979797;
 
       span {
         font-size: 1.4em;
+        line-height: 1.2;
         font-weight: 600;
       }
     }
@@ -498,6 +509,7 @@ $border-color: #979797;
 
   #{$namespace}-qrious {
     display: flex;
+    align-items: flex-start;
 
     &-brief {
       margin: 1em 0;
@@ -556,14 +568,19 @@ $border-color: #979797;
   #{$namespace}-checkout-footer {
     margin-top: 2em;
 
-    &-actions {
-      display: flex;
+    button + button {
+      margin-top: 1em;
     }
+  }
+}
 
-    button {
-      & + button {
-        margin-left: 2em;
-      }
+@media screen and (min-width: 425px) {
+  #{$namespace}-checkout #{$namespace}-checkout-footer-actions {
+    display: flex;
+
+    button + button {
+      margin-top: 0;
+      margin-left: 2em;
     }
   }
 }
@@ -627,6 +644,14 @@ $border-color: #979797;
 
   #{$namespace}-result-footer {
     margin-top: 2em;
+  }
+
+  #{$namespace}-result-error span {
+    margin-bottom: 1em;
+    display: block;
+    color: red;
+    text-align: center;
+    font-weight: 600;
   }
 }
 

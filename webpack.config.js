@@ -39,7 +39,7 @@ module.exports = {
   plugins: [
     new NodePolyfillPlugin(),
     new htmlWebpackPlugin({
-      template: "./tpl/index.html",
+      template: "./public/template.html",
     }),
     new MiniCssExtractPlugin({
       filename: "shopify.css",
