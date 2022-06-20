@@ -99,7 +99,7 @@ $border-color: #979797;
     transform: translate(-50%, -50%);
     background: #fff;
     pointer-events: auto;
-    overflow: auto;
+    overflow: hidden auto;
   }
 
   &-step {
@@ -265,8 +265,8 @@ $border-color: #979797;
 
     svg {
       margin-left: 0.5em;
-      width: 3.85em;
-      height: 1em;
+      width: 5.33em;
+      height: 1.5em;
     }
   }
 }
