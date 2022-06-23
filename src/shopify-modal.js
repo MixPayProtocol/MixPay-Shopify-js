@@ -20,6 +20,7 @@ function ShopifyModal(options = {}) {
   this.result = {};
   this.paymentAssets = [];
   this.quoteAssets = [];
+  this.paymentAssetOnChainSupported = false
 
   this.isReady = false;
   this.isShow = false;

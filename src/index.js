@@ -31,7 +31,7 @@ window.addEventListener("DOMContentLoaded", function () {
   var apiDomainUrl = match && match[0];
 
   var button = createEle("button", { style: "outline:none" });
-  var img = createEle("img", { src: prefix + "/shopify/button.png" });
+  var img = createEle("img", { style:"max-height:60px", src: prefix + "/shopify/button.png" });
   var link = createEle("link", {
     rel: "stylesheet",
     href: prefix + "/shopify/shopify.css",
