@@ -367,7 +367,7 @@ export default `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.
 
 <div class="__mixpay-footer">
   <p class="__mixpay-footer__actions">
-    <a href="https://help.mixpay.me/en_US" target="_blank">Help</a>
+    <a href="https://help.mixpay.me/en_US/faq/how-to-contact-customer-service" target="_blank">Help</a>
     <a href="https://mixpay.me/user-agreement" target="_blank">Terms Of Use</a>
   </p>
   <p class="__mixpay-footer__powered">
