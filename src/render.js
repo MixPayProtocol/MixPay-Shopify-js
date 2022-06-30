@@ -408,7 +408,12 @@ export default {
     if (this.paymentAssetId === value && !force) return;
     const asset = this.paymentAssets.find((item) => item.assetId === value);
     if (!asset) return;
+    query(this.element, `.${namespace}-order-error`).innerHTML = '';
     this.paymentAssetId = value;
+    this.paymentAssetOnChainSupported = asset.onChainSupported;
+    if(!this.paymentAssetOnChainSupported){
+      this.setPaymentMethod('mixin', true);
+    }
     const selected = query(
       this.element,
       `.${namespace}-selector-control .selected`
@@ -431,6 +436,11 @@ export default {
   setPaymentMethod(method, force = false) {
     if (this.paymentMethod === method && !force) return;
     const checkItems = queryAll(this.element, `.${namespace}-check-item`);
+    const payError = query(this.element, `.${namespace}-order-error`);
+    if(method === 'chain' && ! this.paymentAssetOnChainSupported){
+      payError.innerHTML = '<span>This crypto does not support on-chain wallet payment.</span>';
+      return;
+    }
     [].forEach.call(checkItems, function (item) {
       if (item.dataset.value === method) {
         item.classList.add("active");
