@@ -119,12 +119,16 @@ ShopifyModal.prototype = {
       );
       this.result = {
         status: "unpaid",
-        paymentAmount: d.paymentAmount,
+        payableAmount: d.paymentAmount,
+        surplusAmount: '0',
+        paymentAmount: '0',
         paymentAssetSymbol: payment && payment.symbol,
         quoteAmount: this.quoteAmount,
         quoteAssetSymbol: quote && quote.symbol,
         txid: "",
         date: "",
+        failureCode: '',
+        failureReason: '',
       };
 
       this.startCountdown();
@@ -158,12 +162,16 @@ ShopifyModal.prototype = {
           const d = data.data;
           const isStatusChange = d.status !== this.result.status;
           this.result.status = d.status;
+          this.result.payableAmount = d.payableAmount;
+          this.result.surplusAmount = d.surplusAmount;
           this.result.paymentAmount = d.paymentAmount;
           this.result.paymentAssetSymbol = d.paymentSymbol;
           this.result.quoteAmount = d.quoteAmount;
           this.result.quoteAssetSymbol = d.quoteSymbol;
           this.result.txid = d.txid;
           this.result.date = new Date(d.date * 1000).toLocaleString();
+          this.result.failureCode = d.failureCode;
+          this.result.failureReason = d.failureReason;
 
           if (d.status === "success") {
             clearInterval(this.pollKey);

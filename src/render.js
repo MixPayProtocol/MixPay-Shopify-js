@@ -109,7 +109,7 @@ export default {
       if (that.isPaymentCreating) return;
       that.isPaymentCreating = true;
       this.classList.add("inactive");
-      payError.innerHTML = '';
+      payError.innerHTML = "";
       that
         .createPayment()
         .then(() => {
@@ -119,7 +119,7 @@ export default {
           this.classList.remove("inactive");
         })
         .catch((err) => {
-          payError.innerHTML = '<span>' + err.message + '</span>';
+          payError.innerHTML = "<span>" + err.message + "</span>";
           that.isPaymentCreating = false;
           this.classList.remove("inactive");
         });
@@ -205,12 +205,15 @@ export default {
       element,
       `.${namespace}-result[data-id=overtime] button`
     );
-    const refreshError = query(element, `.${namespace}-result[data-id=overtime] .${namespace}-result-error`);
+    const refreshError = query(
+      element,
+      `.${namespace}-result[data-id=overtime] .${namespace}-result-error`
+    );
     refreshBtn.onclick = function () {
       if (that.isPaymentCreating) return;
       that.isPaymentCreating = true;
       this.classList.add("inactive");
-      refreshError.innerHTML = '';
+      refreshError.innerHTML = "";
       that
         .createPayment()
         .then(() => {
@@ -221,7 +224,7 @@ export default {
         })
         .catch((err) => {
           console.error(err);
-          refreshError.innerHTML = '<span>' + err.message +'</span>';
+          refreshError.innerHTML = "<span>" + err.message + "</span>";
           that.isPaymentCreating = false;
           this.classList.remove("inactive");
         });
@@ -318,11 +321,11 @@ export default {
         size: 600,
       });
 
-      const payBtn = query(wrapperMixin, 'button');
+      const payBtn = query(wrapperMixin, "button");
       if (isMobile) {
-        payBtn.style.display = 'block';
+        payBtn.style.display = "block";
       } else {
-        payBtn.style.display = 'none';
+        payBtn.style.display = "none";
       }
     }
   },
@@ -332,10 +335,14 @@ export default {
       status,
       paymentAmount,
       paymentAssetSymbol,
+      surplusAmount,
       quoteAmount,
       quoteAssetSymbol,
       txid,
       date,
+      payableAmount,
+      failureCode,
+      failureReason,
     } = this.result;
     const isConfirmed = this.isConfirmed;
     const results = queryAll(this.element, `.${namespace}-result`);
@@ -374,6 +381,10 @@ export default {
         results[1],
         `.${namespace}-result-detail__content`
       )[1];
+      const descEl = query(
+        results[1],
+        `.${namespace}-result-header__description`
+      );
 
       paymentEl.innerText = `${paymentAmount} ${paymentAssetSymbol}`;
       quoteEl.innerText = `${quoteAmount} ${quoteAssetSymbol}`;
@@ -381,10 +392,46 @@ export default {
         ? `<span class="copy-content">${txid}</span><svg class="icon-copy"><use xlink:href="#mixpayModalCopy" /></svg>`
         : "-";
       dateEl.innerText = date ? date : "-";
+      if (surplusAmount > 0) {
+        descEl.innerText = `The payable amount is ${payableAmount} ${paymentAssetSymbol}, but you paid ${
+          Number(paymentAmount) + Number(surplusAmount)
+        } ${paymentAssetSymbol}. Please click "Help" for a refund.`;
+      } else {
+        descEl.innerText = "";
+      }
     }
 
     if (status === "failed") {
       activeIndex = 2;
+      const descEle = query(
+        results[2],
+        `.${namespace}-result-header__description`
+      );
+      let errMsg = "";
+      switch (String(failureCode)) {
+        case "40000":
+          errMsg = "Payment overtime.";
+          break;
+        case "40001":
+          errMsg =
+            "Receipt address is invalid. Maybe repeat transfer or timeout.";
+          break;
+        case "40020":
+          errMsg = "Wrong asset paid";
+          break;
+        case "40021":
+          errMsg = "Double payment";
+          break;
+        case "40022":
+          errMsg = "Trace ID does not exist.";
+          break;
+        case "40024":
+          errMsg = `The payable amount is ${payableAmount} ${paymentAssetSymbol}, but you paid ${paymentAmount} ${paymentAssetSymbol}. Please click "Help" for a refund.`;
+          break;
+        default:
+          errMsg = failureReason || "Please pay it again.";
+      }
+      descEle.innerText = errMsg;
     }
 
     if (
@@ -408,11 +455,11 @@ export default {
     if (this.paymentAssetId === value && !force) return;
     const asset = this.paymentAssets.find((item) => item.assetId === value);
     if (!asset) return;
-    query(this.element, `.${namespace}-order-error`).innerHTML = '';
+    query(this.element, `.${namespace}-order-error`).innerHTML = "";
     this.paymentAssetId = value;
     this.paymentAssetOnChainSupported = asset.onChainSupported;
-    if(!this.paymentAssetOnChainSupported){
-      this.setPaymentMethod('mixin', true);
+    if (!this.paymentAssetOnChainSupported) {
+      this.setPaymentMethod("mixin", true);
     }
     const selected = query(
       this.element,
@@ -437,8 +484,9 @@ export default {
     if (this.paymentMethod === method && !force) return;
     const checkItems = queryAll(this.element, `.${namespace}-check-item`);
     const payError = query(this.element, `.${namespace}-order-error`);
-    if(method === 'chain' && ! this.paymentAssetOnChainSupported){
-      payError.innerHTML = '<span>This crypto does not support on-chain wallet payment.</span>';
+    if (method === "chain" && !this.paymentAssetOnChainSupported) {
+      payError.innerHTML =
+        "<span>This crypto does not support on-chain wallet payment.</span>";
       return;
     }
     [].forEach.call(checkItems, function (item) {

@@ -292,6 +292,7 @@ export default `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.
         <h3 class="__mixpay-result-header__title">Success</h3>
         <p class="__mixpay-result-header__payment">0 BTC</p>
         <p class="__mixpay-result-header__quote">0.00 USD</p>
+        <p class="__mixpay-result-header__description"></p>
       </div>
       <div class="__mixpay-result-body">
         <div class="__mixpay-result-detail">

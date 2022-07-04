@@ -612,6 +612,10 @@ $border-color: #979797;
       margin-top: 6px;
       font-size: 1.2em;
     }
+
+    &__description {
+      text-align: center;
+    }
   }
 
   &[data-id="success"] #{$namespace}-result-header {
