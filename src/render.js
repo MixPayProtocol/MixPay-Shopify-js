@@ -26,6 +26,11 @@ function addEvents(elements, handler) {
   });
 }
 
+function toFixed(num, decimal) {
+  const rate = 1 / `1e-${decimal}`;
+  return (Math.round((num * rate).toFixed(10)) / rate).toFixed(decimal);
+}
+
 export default {
   render() {
     const element = document.createElement("div");
@@ -394,7 +399,7 @@ export default {
       dateEl.innerText = date ? date : "-";
       if (surplusAmount > 0) {
         descEl.innerText = `The payable amount is ${payableAmount} ${paymentAssetSymbol}, but you paid ${
-          Number(paymentAmount) + Number(surplusAmount)
+          toFixed(Number(paymentAmount) + Number(surplusAmount), 8)
         } ${paymentAssetSymbol}. Please click "Help" for a refund.`;
       } else {
         descEl.innerText = "";
