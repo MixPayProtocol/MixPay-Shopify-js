@@ -65,7 +65,7 @@ window.addEventListener("DOMContentLoaded", function () {
   APIS._getOrderDetail(apiDomainUrl, apiKey, window.Shopify.checkout.order_id)
     .then((data) => {
       const d = data.data;
-      if (d.is_mixpay) {
+      if (!d.is_mixpay) {
         return pageSuccess();
       }
       if (d.status == "unpaid") {
