@@ -1,14 +1,13 @@
-const htmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-module.exports = {
+const config = {
   entry: "./src/index.js",
   output: {
     filename: "shopify.js",
-    path: path.resolve(__dirname, "dist/shopify"),
+    path: path.resolve(__dirname, "dist"),
   },
   devServer: {
     port: 7709,
@@ -17,15 +16,6 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          "postcss-loader",
-          "sass-loader",
-        ],
-      },
       {
         test: /.js$/,
         exclude: /node_modules/,
@@ -45,13 +35,15 @@ module.exports = {
       }),
     ],
   },
-  plugins: [
-    new NodePolyfillPlugin(),
+  plugins: [new CleanWebpackPlugin()],
+};
+
+if (process.env.NODE_ENV !== "production") {
+  config.plugins.push(
     new htmlWebpackPlugin({
       template: "./public/template.html",
-    }),
-    new MiniCssExtractPlugin({
-      filename: "shopify.css",
-    }),
-  ],
-};
+    })
+  );
+}
+
+module.exports = config;
